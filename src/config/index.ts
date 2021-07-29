@@ -5,5 +5,8 @@ const Config = {
      get SERVER_URL() {
           return `http://localhost:8080/api/1.0`;
      },
+     get PRODUCTION_URL() {
+          return `https://om-lite-admin.herokuapp.com/`
+     }
 };
 export default Config;

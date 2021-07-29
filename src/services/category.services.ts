@@ -21,14 +21,16 @@ class CategoryServices {
                );
                return category.data.data;
           } catch (err: any) {
-               return err.message;
+               return err.resonse.message;
           }
      }
 
      public async CreateNewCategory(data: INewCategoryProps) {
           try {
+               console.log(data)
                const NewLight = await axios.post(
-                    `${Config.SERVER_URL}/create-category`
+                    `${Config.SERVER_URL}/create-category`,
+                    data
                );
                return NewLight.data.data;
           } catch (err) {
