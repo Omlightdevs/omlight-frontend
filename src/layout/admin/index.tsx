@@ -17,8 +17,6 @@ import {
   WbIncandescentOutlined,
   AccountCircleOutlined,
   AdbOutlined,
-  ContactsOutlined,
-  MoreOutlined,
   PowerOutlined,
 } from "@material-ui/icons";
 import { Link, useHistory } from "react-router-dom";
@@ -69,26 +67,7 @@ export const AdminNavs: React.FC = ({ children }) => {
                 <ListItemIcon>
                   <AdbOutlined />
                 </ListItemIcon>
-                <ListItemText>My Customer</ListItemText>
-              </ListItem>
-            </Link>
-            <Link
-              to="/admin/manage-contact-page"
-              className={styles.buttonStyles}
-            >
-              <ListItem button>
-                <ListItemIcon>
-                  <ContactsOutlined />
-                </ListItemIcon>
-                <ListItemText>Contact page</ListItemText>
-              </ListItem>
-            </Link>
-            <Link to="/admin/manage-others" className={styles.buttonStyles}>
-              <ListItem button>
-                <ListItemIcon>
-                  <MoreOutlined />
-                </ListItemIcon>
-                <ListItemText>Other page</ListItemText>
+                <ListItemText>Form replies</ListItemText>
               </ListItem>
             </Link>
             <Link to="/admin/manage-account" className={styles.buttonStyles}>

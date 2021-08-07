@@ -27,7 +27,6 @@ class CategoryServices {
 
      public async CreateNewCategory(data: INewCategoryProps) {
           try {
-               console.log(data)
                const NewLight = await axios.post(
                     `${Config.SERVER_URL}/create-category`,
                     data

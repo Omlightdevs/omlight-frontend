@@ -15,8 +15,15 @@ import {
   makeStyles,
   Theme,
   Grid,
+  Card,
+  CardActions,
+  CardMedia,
+  IconButton,
+  CardHeader,
+  CardContent,
+  Container,
 } from "@material-ui/core";
-import { CategoryOutlined } from "@material-ui/icons";
+import { DeleteOutline } from "@material-ui/icons";
 import { Formik } from "formik";
 import React from "react";
 import { ButtonComponent } from "../../../component";
@@ -42,6 +49,7 @@ const validateObject = yup.object().shape({
 export const ProductPage = () => {
   const [lights, setLights] = React.useState<ILightProps[]>();
   const [category, setCategory] = React.useState<ICategoryProps[]>();
+  const [searchText, setSearchText] = React.useState("");
 
   const [open, setOpen] = React.useState(false);
 
@@ -53,8 +61,16 @@ export const ProductPage = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (e: any) => {
-    return console.log(e);
+  const handleSubmit = async (e: any) => {
+    await lightsService.createNewLights(e);
+    const lights = await lightsService.getAllLights();
+    setLights(lights.lights);
+  };
+
+  const deleteProductWithId = async (id: string) => {
+    await lightsService.DelteLightById(id);
+    const light = await lightsService.getAllLights();
+    setLights(light.lights);
   };
 
   const styles = useStyles();
@@ -84,34 +100,84 @@ export const ProductPage = () => {
               color="primary"
               onClick={handleClickOpen}
             >
-              Create new light
+              List out new products
             </ButtonComponent>
           </Box>
         </Box>
+        <Container>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <TextField
+              fullWidth
+              onChange={(e) => setSearchText(e.target.value)}
+              margin="dense"
+              type="text"
+              color="primary"
+              variant="outlined"
+              label="Which light details you are looking for?"
+            />
+          </Box>
+        </Container>
         <Box my={3}>
           <Grid container spacing={3}>
-            {lights?.map((res) => (
-              <Grid key={res._id} item xs={12} xl={6} lg={6} md={6}>
-                <Box>
-                  <Grid container spacing={3} alignItems="center">
-                    <Grid item xs={12} md={4} lg={4} xl={4} justify="center">
-                      <img src={res.images} width="70%" alt="" />
-                    </Grid>
-                    <Grid item xs={12} md={8} lg={8} xl={8}>
-                      <Typography variant="h5" color="primary">
-                        {res.title}
-                      </Typography>
-                      <Typography variant="body1">
-                        ₹ {res.price && res.price}
-                      </Typography>
-                      <Typography style={{ color: "#808080" }} variant="body2">
+            {lights
+              ?.filter((val: ILightProps) => {
+                if (searchText === "") {
+                  return val;
+                } else if (
+                  val.title.toLowerCase().includes(searchText.toLowerCase())
+                ) {
+                  return val;
+                }
+              })
+              .map((res) => (
+                <Grid key={res._id} item xs={12} xl={6} lg={6} md={6}>
+                  <Card className={styles.productCards}>
+                    <CardHeader
+                      title={
+                        <Typography variant="h5" color="primary">
+                          {res.title}
+                        </Typography>
+                      }
+                    />
+                    <CardMedia
+                      component="img"
+                      height="300"
+                      image={res.images}
+                      title={res.title}
+                    />
+                    <CardContent>
+                      {res.price && (
+                        <Typography
+                          variant="body1"
+                          className={styles.description}
+                        >
+                          Price - {res.price}
+                        </Typography>
+                      )}
+                      <Typography
+                        variant="body2"
+                        className={styles.description}
+                      >
                         {res.description}
                       </Typography>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
-            ))}
+                    </CardContent>
+                    <CardActions>
+                      <IconButton
+                        onClick={() => deleteProductWithId(res._id)}
+                        edge="end"
+                        size="medium"
+                      >
+                        <DeleteOutline titleAccess="Delete this product" />
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Box>
@@ -151,13 +217,13 @@ export const ProductPage = () => {
                     name="title"
                     id="title"
                     value={values.title}
-                    onChange={handleChange("name")}
+                    onChange={handleChange("title")}
                     onBlur={handleBlur("title")}
                     helperText={touched.title && errors.title}
                     error={false && Boolean(errors.title)}
                   />
                 </Box>
-                <Box mt={3}>
+                <Box mt={1}>
                   <FormControl variant="outlined" fullWidth>
                     <InputLabel id="demo-simple-select-outlined-label">
                       Select product categories
@@ -165,25 +231,31 @@ export const ProductPage = () => {
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      onChange={handleChange}
+                      onChange={handleChange("category")}
                       label="product categories"
+                      name="category"
                     >
-                      <MenuItem value="None">
-                        <em>None</em>
-                      </MenuItem>
-                      {category?.map(({ _id, name }) => (
+                      {category?.map(({ _id, name, description }) => (
                         <MenuItem key={_id} value={_id}>
-                          {name}
+                          {name} - {description}
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
                 </Box>
                 <Box mt={1}>
-                  <input
-                    accept="image/jpg"
-                    type="file"
-                    className={styles.inputFile}
+                  <TextField
+                    type="text"
+                    label="Enter product firebase image link"
+                    variant="outlined"
+                    fullWidth
+                    name="title"
+                    id="title"
+                    value={values.images}
+                    onChange={handleChange("images")}
+                    onBlur={handleBlur("images")}
+                    helperText={touched.price && errors.price}
+                    error={false && Boolean(errors.price)}
                   />
                 </Box>
                 <Box mt={1}>
@@ -210,7 +282,7 @@ export const ProductPage = () => {
                     name="description"
                     id="description"
                     multiline
-                    rows={5}
+                    rows={10}
                     value={values.description}
                     onChange={handleChange("description")}
                     onBlur={handleBlur("description")}
@@ -218,18 +290,24 @@ export const ProductPage = () => {
                     error={false && Boolean(errors.description)}
                   />
                 </Box>
+                <DialogActions style={{ marginRight: -15 }}>
+                  <Button onClick={handleClose} color="primary">
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    onClick={() => {
+                      handleClose();
+                    }}
+                    color="primary"
+                  >
+                    Upload
+                  </Button>
+                </DialogActions>
               </form>
             )}
           </Formik>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Upload
-          </Button>
-        </DialogActions>
       </Dialog>
     </AdminNavs>
   );
@@ -244,5 +322,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   inputFile: {
     width: "100%",
+  },
+  description: {
+    color: "#808080",
+  },
+  productCards: {
+    border: `1px solid ${theme.palette.primary["main"]}`,
+    boxShadow: "none",
+  },
+  dangerText: {
+    color: theme.palette.error["main"],
   },
 }));

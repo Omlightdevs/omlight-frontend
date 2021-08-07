@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { DefaultLayout } from "../../../layout";
+import ContentLoader from "react-content-loader";
 import Helmet from "react-helmet";
 import {
   Background,
@@ -46,13 +47,16 @@ const validationObject = yup.object().shape({
 export const Home: React.FC = () => {
   const classes = useStyles();
   const [category, setCategories] = React.useState<ICategoryProps[]>([]);
+  const [loading, setLoading] = React.useState(false);
   const handleContactSubmit = (e: any) => {
     return console.log(e);
   };
   React.useEffect(() => {
     (async () => {
+      setLoading(true);
       const categories = await categoryServices.getAllCategories();
       setCategories(categories.categories);
+      setLoading(false);
     })();
   }, []);
   return (
@@ -73,7 +77,21 @@ export const Home: React.FC = () => {
         subHeading="
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus tempore dolores laboriosam numquam cumque nostrum adipisci sunt aperiam? Non eveniet ratione unde omnis consequuntur. Facere quos veritatis rerum eligendi similique!"
       />
-      {category?.length > 0 ? (
+      {loading && (
+        <ContentLoader
+          speed={2}
+          width={400}
+          height={460}
+          viewBox="0 0 400 460"
+          backgroundColor="#f3f3f3"
+          foregroundColor="#ecebeb"
+        >
+          <circle cx="30" cy="434" r="23" />
+          <rect x="63" y="414" rx="2" ry="2" width="329" height="38" />
+          <rect x="-4" y="0" rx="2" ry="2" width="400" height="400" />
+        </ContentLoader>
+      )}
+      {!loading && category?.length > 0 ? (
         <Box pl={3} mb={5} pr={3} id="categories">
           <Title label="Explore Categories" path="#category" />
           <Grid container spacing={3}>

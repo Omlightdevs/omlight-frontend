@@ -4,13 +4,12 @@ export {
      ContactPage,
      AboutPage,
      LightDetails,
+     NotFound
 } from "./user";
 export {
      Dashboard,
      CategoryPage,
      AdminAccountPage,
-     ManageContactPage,
-     OtherPage,
      ProductPage,
      CustomersPage,
 } from "./admin";

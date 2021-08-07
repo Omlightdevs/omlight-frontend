@@ -12,7 +12,6 @@ class AuthService {
                     password: user.password,
                }
           );
-          console.log(data.data.data.token);
           localStorage.setItem("Token", data.data.data.token);
      }
 }

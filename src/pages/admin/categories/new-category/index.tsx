@@ -49,7 +49,8 @@ export const CategoryPage = () => {
   };
   const deleteCategory = async (id: string) => {
     await categoryServices.deleteCategoryById(id);
-    await categoryServices.getAllCategories();
+    const data = await categoryServices.getAllCategories();
+    setCategories(data.categories);
   };
 
   const getCategories = async () => {
@@ -62,7 +63,8 @@ export const CategoryPage = () => {
 
   const creatingCategories = async (e: any) => {
     await categoryServices.CreateNewCategory(e);
-    await categoryServices.getAllCategories();
+    const data = await categoryServices.getAllCategories();
+    setCategories(data.categories);
   };
 
   const styles = useStyles();
