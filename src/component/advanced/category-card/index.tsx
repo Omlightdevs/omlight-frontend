@@ -14,19 +14,21 @@ interface CategoryCardProps {
   image: string;
   label: string;
   description: string;
+  path: string;
 }
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({
   image,
   label,
   description,
+  path,
 }) => {
   const classes = useStyles();
   return (
-    <Card>
-      <CardActionArea>
-        <CardMedia component="img" src={image} height={350} />
-        <Link to="#category_id" className={classes.links}>
+    <Card className={classes.appCard}>
+      <Link to={path} className={classes.links}>
+        <CardActionArea>
+          <CardMedia component="img" src={image} height={350} />
           <CardContent>
             <Typography
               variant="h5"
@@ -40,8 +42,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
               {description}
             </Typography>
           </CardContent>
-        </Link>
-      </CardActionArea>
+        </CardActionArea>
+      </Link>
     </Card>
   );
 };
@@ -51,5 +53,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     textDecoration: "none",
     color: theme.palette.primary["main"],
     textTransform: "capitalize",
+  },
+  appCard: {
+    boxShadow: "none",
+    border: `1px solid ${theme.palette.primary.main}`,
+    "&:hover": {
+      boxShadow: "default",
+    },
   },
 }));

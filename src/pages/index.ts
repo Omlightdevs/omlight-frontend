@@ -12,5 +12,6 @@ export {
      AdminAccountPage,
      ProductPage,
      CustomersPage,
+     WebsiteInformation
 } from "./admin";
 export { LoginAuth, ForgotPassword } from "./auth";

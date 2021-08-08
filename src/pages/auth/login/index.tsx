@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 import authServices from "../../../services/auth.services";
+import { DefaultLayout } from "../../../layout";
 
 interface userProps {
   email: string;
@@ -38,7 +39,7 @@ export const LoginAuth = () => {
     }
   };
   return (
-    <>
+    <DefaultLayout logo="Om lights" link={[{ linkName: "Home", path: "/" }]}>
       <Box
         display="flex"
         flexDirection="column"
@@ -130,6 +131,6 @@ export const LoginAuth = () => {
           )}
         </Formik>
       </Box>
-    </>
+    </DefaultLayout>
   );
 };

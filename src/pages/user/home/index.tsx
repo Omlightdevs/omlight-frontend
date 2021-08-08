@@ -7,39 +7,33 @@ import {
   Theme,
   Typography,
   TextField,
+  useTheme,
 } from "@material-ui/core";
 import { DefaultLayout } from "../../../layout";
-import ContentLoader from "react-content-loader";
 import Helmet from "react-helmet";
 import {
   Background,
   Title,
   CategoryCard,
   ButtonComponent,
+  CategoryLoader,
 } from "../../../component";
-import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 import categoryServices from "../../../services/category.services";
-import { ICategoryProps } from "../../../types";
+import featuresServices from "../../../services/features.services";
+import { ICategoryProps, IContactFormProps } from "../../../types";
 
-interface ContactFormProps {
-  name: string;
-  contact: string;
-  email: string;
-  message: string;
-}
-
-const initialValues: ContactFormProps = {
+const initialValues: IContactFormProps = {
   name: "",
-  contact: "",
+  phoneNumber: "",
   email: "",
   message: "",
 };
 
 const validationObject = yup.object().shape({
   name: yup.string().required("Your name required"),
-  contact: yup.string().required("Please add your contact number"),
+  phoneNumber: yup.string().required("Please add your contact number"),
   email: yup.string().email(),
   message: yup.string().required("Please write a message atleast..."),
 });
@@ -48,9 +42,15 @@ export const Home: React.FC = () => {
   const classes = useStyles();
   const [category, setCategories] = React.useState<ICategoryProps[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const handleContactSubmit = (e: any) => {
-    return console.log(e);
+  const [success, setSuccess] = React.useState("");
+
+  const handleContactSubmit = async (e: any) => {
+    const message = await featuresServices.contactForm(e);
+    setSuccess(message);
   };
+
+  const { palette } = useTheme();
+
   React.useEffect(() => {
     (async () => {
       setLoading(true);
@@ -59,11 +59,12 @@ export const Home: React.FC = () => {
       setLoading(false);
     })();
   }, []);
+
   return (
     <DefaultLayout
       logo="Om lights"
       link={[
-        { linkName: "Home", path: "/home" },
+        { linkName: "Home", path: "/" },
         { linkName: "About", path: "/about" },
         { linkName: "Contact", path: "/contact" },
       ]}
@@ -77,38 +78,48 @@ export const Home: React.FC = () => {
         subHeading="
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus tempore dolores laboriosam numquam cumque nostrum adipisci sunt aperiam? Non eveniet ratione unde omnis consequuntur. Facere quos veritatis rerum eligendi similique!"
       />
+      <Box pl={3} mb={5} pr={3} id="categories">
+        <Title label="Explore Categories" />
+      </Box>
       {loading && (
-        <ContentLoader
-          speed={2}
-          width={400}
-          height={460}
-          viewBox="0 0 400 460"
-          backgroundColor="#f3f3f3"
-          foregroundColor="#ecebeb"
-        >
-          <circle cx="30" cy="434" r="23" />
-          <rect x="63" y="414" rx="2" ry="2" width="329" height="38" />
-          <rect x="-4" y="0" rx="2" ry="2" width="400" height="400" />
-        </ContentLoader>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={4} lg={3} xl={3}>
+            <CategoryLoader
+              loadingSpeed={3}
+              forGroundColor={palette.primary.main}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={3} xl={3}>
+            <CategoryLoader
+              loadingSpeed={3}
+              forGroundColor={palette.primary.main}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={3} xl={3}>
+            <CategoryLoader
+              loadingSpeed={3}
+              forGroundColor={palette.primary.main}
+            />
+          </Grid>
+        </Grid>
       )}
-      {!loading && category?.length > 0 ? (
+      {!loading && category?.length && (
         <Box pl={3} mb={5} pr={3} id="categories">
-          <Title label="Explore Categories" path="#category" />
           <Grid container spacing={3}>
             {category?.map((data: ICategoryProps) => (
               <Grid item xs={12} sm={12} md={4} lg={3} xl={3} key={data._id}>
-                <Link to={`/category/${data._id}`} className={classes.links}>
-                  <CategoryCard
-                    image={data.image}
-                    label={data.name}
-                    description={data.description}
-                  />
-                </Link>
+                <CategoryCard
+                  image={data.image}
+                  label={data.name}
+                  path={`/category/${data._id}`}
+                  description={data.description}
+                />
               </Grid>
             ))}
           </Grid>
         </Box>
-      ) : (
+      )}
+      {!loading && !category.length && (
         <Box my={3}>
           <Typography variant="h3" align="center">
             No Information have been uploaded by admin
@@ -128,11 +139,18 @@ export const Home: React.FC = () => {
                 <Typography variant="h3" color="primary">
                   Directly reach us with in a seconds...
                 </Typography>
+                <Typography variant="body1">
+                  For any query and questions you can send the message with this
+                  form message and contact informations.
+                </Typography>
               </Box>
             </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={6} xl={6} lg={6}>
             <Box>
+              <Box my={3}>
+                {success && <Typography variant="body1">{success}</Typography>}
+              </Box>
               <Formik
                 onSubmit={handleContactSubmit}
                 validationSchema={validationObject}
@@ -155,6 +173,7 @@ export const Home: React.FC = () => {
                         fullWidth
                         name="name"
                         id="name"
+                        classes={{ root: classes.appTextInput }}
                         value={values.name}
                         onChange={handleChange("name")}
                         onBlur={handleBlur("name")}
@@ -175,11 +194,12 @@ export const Home: React.FC = () => {
                           color="primary"
                           name="contact"
                           id="contact"
-                          value={values.contact}
-                          onChange={handleChange("contact")}
-                          onBlur={handleBlur("contact")}
-                          helperText={touched.contact && errors.contact}
-                          error={false && Boolean(errors.contact)}
+                          classes={{ root: classes.appTextInput }}
+                          value={values.phoneNumber}
+                          onChange={handleChange("phoneNumber")}
+                          onBlur={handleBlur("phoneNumber")}
+                          helperText={touched.phoneNumber && errors.phoneNumber}
+                          error={false && Boolean(errors.phoneNumber)}
                           fullWidth
                         />
                       </Box>
@@ -188,6 +208,7 @@ export const Home: React.FC = () => {
                           variant="outlined"
                           label="email (optional)"
                           color="primary"
+                          classes={{ root: classes.appTextInput }}
                           value={values.email}
                           onChange={handleChange("email")}
                           onBlur={handleBlur("email")}
@@ -203,6 +224,7 @@ export const Home: React.FC = () => {
                         variant="outlined"
                         label="Message (required)"
                         color="primary"
+                        classes={{ root: classes.appTextInput }}
                         multiline
                         rows={5}
                         rowsMax={5}
@@ -242,5 +264,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   links: {
     textDecoration: "none",
     color: theme.palette.primary["main"],
+  },
+  appTextInput: {
+    background: "#fff",
+    border: `1px solid #000`,
   },
 }));

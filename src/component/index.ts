@@ -1,3 +1,3 @@
-export { Background, Title, CategoryCard, SearchBar } from "./advanced";
+export { Background, Title, CategoryCard, SearchBar,CategoryLoader } from "./advanced";
 export { ButtonComponent } from "./ui";
-export {NotFoundSvg} from './svg'
+export { NotFoundSvg } from './svg'
