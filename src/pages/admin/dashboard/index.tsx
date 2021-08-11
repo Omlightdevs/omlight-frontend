@@ -6,17 +6,22 @@ import { ButtonComponent } from "../../../component";
 import lightsService from "../../../services/lights.service";
 import categoryServices from "../../../services/category.services";
 import { Link } from "react-router-dom";
+import featuresServices from "../../../services/features.services";
 
 export const Dashboard = () => {
   const { palette } = useTheme();
   const [light, setlight] = React.useState<Number>();
   const [category, setCategory] = React.useState<Number>();
+  const [customer, setCustomer] = React.useState<Number>();
+
   React.useEffect(() => {
     (async () => {
       const light = await lightsService.getAllLights();
       const category = await categoryServices.getAllCategories();
+      const customer = await featuresServices.getCustomer();
       setCategory(category.categories.length);
       setlight(light.lights.length);
+      setCustomer(customer.length);
     })();
   });
   return (
@@ -123,7 +128,7 @@ export const Dashboard = () => {
               alignItems="center"
             >
               <Typography variant="h1" color="primary">
-                5
+                {customer}
               </Typography>
               <Typography variant="subtitle1">
                 Tried to reached you from contact form

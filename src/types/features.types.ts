@@ -1,16 +1,13 @@
 export interface IFeaturesProps {
+  _id?: string;
   websiteName: string;
-  websiteLogo: string;
+  logo: string;
   description: string;
-  contact: {
-    type: string;
-    name: string;
-    details: string;
-  }[];
+  phoneNumberOne: string;
+  phoneNumberTwo: string;
+  instagramLink: string;
+  facebookLink: string;
   shopAddress: string;
-  brands: {
-    title: string;
-  }[];
 }
 
 export interface IContactFormProps {

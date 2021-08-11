@@ -13,7 +13,7 @@ import { ButtonComponent } from "../../../component";
 import Helmet from "react-helmet";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { IContactFormProps } from "../../../types";
+import { IContactFormProps, IFeaturesProps } from "../../../types";
 import featuresServices from "../../../services/features.services";
 
 const initialValues: IContactFormProps = {
@@ -33,11 +33,19 @@ const validationObject = yup.object().shape({
 export const ContactPage = () => {
   const styles = useStyles();
   const [success, setSuccess] = React.useState("");
+  const [details, setDeatils] = React.useState<IFeaturesProps[]>();
 
   const handleContactSubmit = async (e: any) => {
     const message = await featuresServices.contactForm(e);
     setSuccess(message);
   };
+
+  React.useEffect(() => {
+    (async () => {
+      const data = await featuresServices.getAllDetails();
+      setDeatils(data);
+    })();
+  }, []);
   return (
     <DefaultLayout
       link={[
@@ -45,7 +53,6 @@ export const ContactPage = () => {
         { linkName: "About", path: "/about" },
         { linkName: "Contact", path: "/contact" },
       ]}
-      logo="Om lights"
     >
       <Helmet>
         <title>om lights - contact us</title>
@@ -53,12 +60,11 @@ export const ContactPage = () => {
       <Container>
         <Box
           height="100%"
-          pt={3}
-          pb={3}
           display="flex"
           flexDirection="row"
           justifyContent="center"
           alignItems="center"
+          my={5}
         >
           <Box
             p={3}
@@ -69,35 +75,43 @@ export const ContactPage = () => {
             flex={1}
             boxShadow="3"
           >
-            <Box flex={1}>
-              <Typography variant="h3" className={styles.title} color="primary">
-                Let's Keep In Touch
-              </Typography>
-              <Box mt={5}>
-                <Typography variant="h6" color="primary">
-                  Email address
+            {details?.map(({ phoneNumberOne, phoneNumberTwo, shopAddress }) => (
+              <Box flex={1}>
+                <Typography
+                  variant="h3"
+                  className={styles.title}
+                  color="primary"
+                >
+                  Let's Keep In Touch
                 </Typography>
+                <Box mt={5}>
+                  <Typography variant="h6" color="primary">
+                    Email address
+                  </Typography>
 
-                <Typography variant="body1">Omlit2021@gmail.com</Typography>
+                  <Typography variant="body1">Omlit2021@gmail.com</Typography>
+                </Box>
+                <Box my={2}>
+                  <Typography variant="h6" color="primary">
+                    Contact Number
+                  </Typography>
+                  <Typography variant="body1">
+                    Contact - {phoneNumberOne}
+                  </Typography>
+                  <Typography variant="body1">
+                    Contact - {phoneNumberTwo}
+                  </Typography>
+                </Box>
+                <Box my={2}>
+                  <Typography variant="h6" color="primary">
+                    Physical Address
+                  </Typography>
+                  <Typography variant="body1">
+                    <address>{shopAddress}</address>
+                  </Typography>
+                </Box>
               </Box>
-              <Box my={2}>
-                <Typography variant="h6" color="primary">
-                  Contact Number
-                </Typography>
-                <Typography variant="body1">+91 9324039704</Typography>
-              </Box>
-              <Box my={2}>
-                <Typography variant="h6" color="primary">
-                  Physical Address
-                </Typography>
-                <Typography variant="body1">
-                  <address>
-                    Shop No. -15, Laxmi Apartment, Near Union Bank, Anand Nagar,
-                    Dahisar East, Mumbai - 400068.
-                  </address>
-                </Typography>
-              </Box>
-            </Box>
+            ))}
             <Box flex={1}>
               <Typography variant="h3" className={styles.title} color="primary">
                 Contact us we will reach you soon!

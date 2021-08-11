@@ -1,13 +1,7 @@
 import React from "react";
 
 import { DefaultLayout } from "../../../layout";
-import {
-  Typography,
-  Box,
-  Grid,
-  makeStyles,
-  createStyles,
-} from "@material-ui/core";
+import { Typography, Box, Grid, useTheme } from "@material-ui/core";
 import { ILightProps } from "../../../types";
 import lightsService from "../../../services/lights.service";
 import { Redirect, useParams } from "react-router-dom";
@@ -31,10 +25,9 @@ export const LightDetails = () => {
       setLight(lights);
     })();
   }, [params.lightId]);
-  const classes = useStyles();
+  const theme = useTheme();
   return (
     <DefaultLayout
-      logo="Om lights"
       link={[
         { linkName: "Home", path: "/" },
         { linkName: "About", path: "/about" },
@@ -58,6 +51,7 @@ export const LightDetails = () => {
           >
             <Box display="flex" justifyContent="center" alignItems="center">
               <img
+                style={{ borderRadius: theme.spacing(2.5) }}
                 width="75%"
                 src={light?.images}
                 alt={light?.title}
@@ -74,22 +68,16 @@ export const LightDetails = () => {
               mt={3}
             >
               <Typography variant="h5" style={{ color: "#808080" }}>
-                ₹ {light?.price && light?.price}
+                Price ₹ {light?.price && light?.price}
               </Typography>
-              <Box ml={2}>
-                <Typography variant="body2">
-                  Currently
-                  {light?.active ? "In stock" : "Not avaliable in stock"}
-                </Typography>
-              </Box>
             </Box>
             <Box mt={3}>
-              <p
-                className={classes.appDescription}
-                dangerouslySetInnerHTML={{
-                  __html: `${light?.description}`,
-                }}
-              ></p>
+              <Typography
+                variant="body2"
+                style={{ color: "#808080", whiteSpace: "pre-wrap" }}
+              >
+                {light?.description}
+              </Typography>
             </Box>
           </Grid>
         </Grid>
@@ -97,12 +85,3 @@ export const LightDetails = () => {
     </DefaultLayout>
   );
 };
-
-const useStyles = makeStyles(() => {
-  return createStyles({
-    appDescription: {
-      whiteSpace: `pre-wrap`,
-      color: "#808080",
-    },
-  });
-});

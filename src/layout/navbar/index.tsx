@@ -23,23 +23,34 @@ import {
   Facebook,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import featuresServices from "../../services/features.services";
+import { IFeaturesProps } from "../../types";
 
 interface NavbarProps {
   link: {
     linkName: string;
     path: string;
   }[];
-  logo: string;
 }
 
-export const DefaultLayout: React.FC<NavbarProps> = ({
-  link,
-  logo,
-  children,
-}) => {
+export const DefaultLayout: React.FC<NavbarProps> = ({ link, children }) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [logo, setLogo] = React.useState("");
+  const [fb, setFb] = React.useState("");
+  const [insta, setInsta] = React.useState("");
+
+  React.useEffect(() => {
+    (async () => {
+      const info = await featuresServices.getWebsiteDetails();
+      info?.map((res: IFeaturesProps) => {
+        setLogo(res.logo);
+        setFb(res.facebookLink);
+        setInsta(res.instagramLink);
+      });
+    })();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -60,10 +71,17 @@ export const DefaultLayout: React.FC<NavbarProps> = ({
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent="flex-start"
+            justifyContent="space-between"
             alignItems="center"
             flex={1}
           >
+            <img
+              src={logo}
+              height="75"
+              width="150"
+              alt=""
+              style={{ borderRadius: theme.spacing(2) }}
+            />
             <IconButton
               aria-label="open drawer"
               onClick={handleDrawerOpen}
@@ -73,9 +91,6 @@ export const DefaultLayout: React.FC<NavbarProps> = ({
             >
               <Menu />
             </IconButton>
-            <Typography variant="h4" noWrap>
-              {logo}
-            </Typography>
           </Box>
           <Box
             className={classes.desktopLink}
@@ -127,14 +142,7 @@ export const DefaultLayout: React.FC<NavbarProps> = ({
         <Container>
           <Grid container spacing={3} justify="center" alignItems="center">
             <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
-              <Typography
-                align="center"
-                style={{ fontWeight: 600 }}
-                variant="h4"
-                noWrap
-              >
-                {logo}
-              </Typography>
+              <img src={logo} height="75" width="150" alt="" />
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
               <Box
@@ -168,14 +176,14 @@ export const DefaultLayout: React.FC<NavbarProps> = ({
                   </Link>
                 </Box>
                 <Box mr={3}>
-                  <Link to="#socialRoad" className={classes.links}>
+                  <Link to={`${insta}`} className={classes.links}>
                     <Instagram />
                   </Link>
                 </Box>
                 <Box mr={3}>
-                  <Link to="#socialRoad" className={classes.links}>
+                  <a href={`${fb}`} className={classes.links}>
                     <Facebook />
-                  </Link>
+                  </a>
                 </Box>
               </Box>
             </Grid>
@@ -191,6 +199,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
     // backgroundColor: "#fff",
     color: "#fff",
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1.5),
   },
   desktopLink: {
     [theme.breakpoints.down("xs")]: {

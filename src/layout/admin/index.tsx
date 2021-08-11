@@ -29,6 +29,7 @@ export const AdminNavs: React.FC = ({ children }) => {
     localStorage.removeItem("Token");
     history.push("/");
   };
+
   return (
     <>
       <AppBar position="static">

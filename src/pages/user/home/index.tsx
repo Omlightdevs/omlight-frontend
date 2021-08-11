@@ -22,7 +22,11 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import categoryServices from "../../../services/category.services";
 import featuresServices from "../../../services/features.services";
-import { ICategoryProps, IContactFormProps } from "../../../types";
+import {
+  ICategoryProps,
+  IContactFormProps,
+  IFeaturesProps,
+} from "../../../types";
 
 const initialValues: IContactFormProps = {
   name: "",
@@ -43,6 +47,17 @@ export const Home: React.FC = () => {
   const [category, setCategories] = React.useState<ICategoryProps[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState("");
+  const [websiteName, setWebsiteName] = React.useState("");
+
+  React.useEffect(() => {
+    (async () => {
+      const information = await featuresServices.getAllDetails();
+
+      information?.map((res: IFeaturesProps) => {
+        setWebsiteName(res.websiteName);
+      });
+    })();
+  }, []);
 
   const handleContactSubmit = async (e: any) => {
     const message = await featuresServices.contactForm(e);
@@ -62,7 +77,6 @@ export const Home: React.FC = () => {
 
   return (
     <DefaultLayout
-      logo="Om lights"
       link={[
         { linkName: "Home", path: "/" },
         { linkName: "About", path: "/about" },
@@ -74,9 +88,7 @@ export const Home: React.FC = () => {
       </Helmet>
       <Background
         backgroundImage="https://images.pexels.com/photos/4112237/pexels-photo-4112237.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-        heading="Welcome to OM Lights"
-        subHeading="
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus tempore dolores laboriosam numquam cumque nostrum adipisci sunt aperiam? Non eveniet ratione unde omnis consequuntur. Facere quos veritatis rerum eligendi similique!"
+        heading={`Welcome to ${websiteName}`}
       />
       <Box pl={3} mb={5} pr={3} id="categories">
         <Title label="Explore Categories" />

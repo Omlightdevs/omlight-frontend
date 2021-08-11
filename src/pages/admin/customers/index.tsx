@@ -39,30 +39,31 @@ export const CustomersPage = () => {
       </Typography>
       <Box my={3}>
         <Grid container spacing={3}>
-          {customer?.map(({ _id, name, message, phoneNumber, email }) => (
-            <Grid item xs={12} md={6} lg={3} xl={3}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" color="primary">
-                    {name}
-                  </Typography>
-                  <Typography variant="h6">{phoneNumber}</Typography>
-                  {email && <Typography variant="h6">{email}</Typography>}
-                  <Typography variant="body1">{message}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Box display="flex" justifyContent="flex-end" width="100%">
-                    <ButtonComponent
-                      color="primary"
-                      onClick={() => deleteContactDetails(`${_id}`)}
-                    >
-                      <DeleteForeverOutlined />
-                    </ButtonComponent>
-                  </Box>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+          {customer &&
+            customer?.map(({ _id, name, message, phoneNumber, email }) => (
+              <Grid item xs={12} md={6} lg={3} xl={3}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" color="primary">
+                      {name}
+                    </Typography>
+                    <Typography variant="h6">{phoneNumber}</Typography>
+                    {email && <Typography variant="h6">{email}</Typography>}
+                    <Typography variant="body1">{message}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Box display="flex" justifyContent="flex-end" width="100%">
+                      <ButtonComponent
+                        color="primary"
+                        onClick={() => deleteContactDetails(`${_id}`)}
+                      >
+                        <DeleteForeverOutlined />
+                      </ButtonComponent>
+                    </Box>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           {!customer?.length && (
             <Box textAlign="center" width="100%" my={3}>
               <Typography variant="h5" color="primary">

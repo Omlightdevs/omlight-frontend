@@ -2,13 +2,12 @@ import React from "react";
 
 import { NotFoundSvg } from "../../../component";
 import { DefaultLayout } from "../../../layout";
-import { Box, Typography, Container } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 export const NotFound = () => {
   return (
     <DefaultLayout
-      logo="Om lights"
       link={[
         { linkName: "Home", path: "/home" },
         { linkName: "About", path: "/about" },

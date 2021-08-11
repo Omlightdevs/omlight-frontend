@@ -39,7 +39,7 @@ export const LoginAuth = () => {
     }
   };
   return (
-    <DefaultLayout logo="Om lights" link={[{ linkName: "Home", path: "/" }]}>
+    <DefaultLayout link={[{ linkName: "Home", path: "/" }]}>
       <Box
         display="flex"
         flexDirection="column"

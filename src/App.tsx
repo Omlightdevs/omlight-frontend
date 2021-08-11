@@ -15,6 +15,7 @@ import {
   CustomersPage,
   NotFound,
   WebsiteInformation,
+  UpdateInfo,
 } from "./pages";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
@@ -79,6 +80,11 @@ export default function App() {
               exact
               path="/admin/website-information"
               component={WebsiteInformation}
+            />
+            <Route
+              exact
+              path="/admin/update-contact-details/:id"
+              component={UpdateInfo}
             />
           </Auth>
           <Route component={NotFound} />

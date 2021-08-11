@@ -43,7 +43,6 @@ export const CategoryDetails = () => {
 
   return (
     <DefaultLayout
-      logo="Om lights"
       link={[
         { linkName: "Home", path: "/" },
         { linkName: "About", path: "/about" },
