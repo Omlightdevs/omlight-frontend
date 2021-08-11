@@ -68,13 +68,10 @@ class FeatureController {
       return err.message;
     }
   }
-  public async updatingWebsiteDetails(
-    _id: string,
-    information: IFeaturesProps
-  ) {
+  public async updatingWebsiteDetails(id: string, information: IFeaturesProps) {
     try {
       const data = await axios.put(
-        `${Config.SERVER_URL}/update-wesbite-details/${_id}`,
+        `${Config.SERVER_URL}/update-wesbite-details/${id}`,
         information
       );
       return data.data.data;
