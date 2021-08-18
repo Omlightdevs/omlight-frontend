@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AdminNavs } from "../../../layout";
-import { Box, Theme, useTheme, Typography } from "@material-ui/core";
+import { Box, Theme, useTheme, Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import { IFeaturesProps } from "../../../types";
 import featuresServices from "../../../services/features.services";
@@ -118,6 +118,57 @@ export const WebsiteInformation = () => {
                     <Typography variant="body1">
                       phone 2 - +91 {res.phoneNumberTwo}
                     </Typography>
+                  </Box>
+                </Box>
+                <Box display="flex" flexDirection="row" justifyContent="center">
+                  <Box flex={1}>
+                    <Typography variant="h5" color="primary">
+                      Your website's shop images
+                    </Typography>
+                  </Box>
+                  <Box flex={2}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} xl={4}>
+                        <img
+                          src={res.shopImagesOne}
+                          height="100%"
+                          width="100%"
+                          alt=""
+                        />
+                      </Grid>
+                      <Grid item xs={12} xl={4}>
+                        <img
+                          src={res.shopImagesTwo}
+                          height="100%"
+                          width="100%"
+                          alt=""
+                        />
+                      </Grid>
+                      <Grid item xs={12} xl={4}>
+                        <img
+                          src={res.shopImagesThree}
+                          height="100%"
+                          width="100%"
+                          alt=""
+                        />
+                      </Grid>
+                      <Grid item xs={12} xl={4}>
+                        <img
+                          src={res.shopImagesFour}
+                          height="100%"
+                          width="100%"
+                          alt=""
+                        />
+                      </Grid>
+                      <Grid item xs={12} xl={4}>
+                        <img
+                          src={res.shopImagesFive}
+                          height="100%"
+                          width="100%"
+                          alt=""
+                        />
+                      </Grid>
+                    </Grid>
                   </Box>
                 </Box>
               </Box>

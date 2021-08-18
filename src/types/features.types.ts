@@ -8,6 +8,11 @@ export interface IFeaturesProps {
   instagramLink: string;
   facebookLink: string;
   shopAddress: string;
+  shopImagesOne: string;
+  shopImagesTwo: string;
+  shopImagesThree: string;
+  shopImagesFour: string;
+  shopImagesFive: string;
 }
 
 export interface IContactFormProps {

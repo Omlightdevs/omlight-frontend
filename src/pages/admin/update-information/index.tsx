@@ -27,6 +27,11 @@ const validationSchema = yup.object().shape({
   websiteName: yup.string().required("Website name is important"),
   phoneNumberOne: yup.string().required("Phone number is required"),
   phoneNumberTwo: yup.string().required("Phone number is required"),
+  shopImagesOne: yup.string().required("Shop image is reqired"),
+  shopImagesTwo: yup.string().required("Shop images is required"),
+  shopImagesThree: yup.string().required("Shop images is required"),
+  shopImagesFour: yup.string().required("Shop images is required"),
+  shopImagesFive: yup.string().required("Shop images is required"),
 });
 
 export const UpdateInfo = () => {
@@ -54,6 +59,11 @@ export const UpdateInfo = () => {
     phoneNumberTwo: info?.phoneNumberTwo,
     websiteName: info?.websiteName,
     shopAddress: info?.shopAddress,
+    shopImagesOne: info?.shopImagesOne,
+    shopImagesTwo: info?.shopImagesTwo,
+    shopImagesThree: info?.shopImagesThree,
+    shopImagesFour: info?.shopImagesFour,
+    shopImagesFive: info?.shopImagesFive,
   };
 
   const onSubmitted = async (e: any) => {
@@ -164,7 +174,7 @@ export const UpdateInfo = () => {
                 </label>
                 <TextField
                   value={values.phoneNumberOne}
-                  onChange={handleChange("phoneNumber")}
+                  onChange={handleChange("phoneNumberOne")}
                   onBlur={handleBlur("phoneNumberOne")}
                   helperText={touched.phoneNumberOne && errors.phoneNumberOne}
                   error={false && Boolean(errors.phoneNumberOne)}
@@ -221,6 +231,90 @@ export const UpdateInfo = () => {
                   onBlur={handleBlur("instagramLink")}
                   helperText={touched.instagramLink && errors.instagramLink}
                   error={false && Boolean(errors.instagramLink)}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <Box ml={2} mr={2}>
+              <label htmlFor="your shop address">
+                Your shop images will mananged from here!
+              </label>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Box p={2} flex={1}>
+                <label htmlFor="shop image one">shop image one</label>
+                <TextField
+                  value={values.shopImagesOne}
+                  onChange={handleChange("shopImagesOne")}
+                  onBlur={handleBlur("shopImagesOne")}
+                  helperText={touched.shopImagesOne && errors.shopImagesOne}
+                  error={false && Boolean(errors.shopImagesOne)}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                />
+              </Box>
+              <Box p={2} flex={1}>
+                <label htmlFor="shop image two">shop image two</label>
+                <TextField
+                  value={values.shopImagesTwo}
+                  onChange={handleChange("shopImagesTwo")}
+                  onBlur={handleBlur("shopImagesTwo")}
+                  helperText={touched.shopImagesTwo && errors.shopImagesTwo}
+                  error={false && Boolean(errors.shopImagesTwo)}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                />
+              </Box>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Box p={2} flex={1}>
+                <label htmlFor="shop image three">shop image three</label>
+                <TextField
+                  value={values.shopImagesThree}
+                  onChange={handleChange("shopImagesThree")}
+                  onBlur={handleBlur("shopImagesThree")}
+                  helperText={touched.shopImagesThree && errors.shopImagesThree}
+                  error={false && Boolean(errors.shopImagesThree)}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                />
+              </Box>
+              <Box p={2} flex={1}>
+                <label htmlFor="shop image four">shop image four</label>
+                <TextField
+                  value={values.shopImagesFour}
+                  onChange={handleChange("shopImagesFour")}
+                  onBlur={handleBlur("shopImagesFour")}
+                  helperText={touched.shopImagesFour && errors.shopImagesFour}
+                  error={false && Boolean(errors.shopImagesFour)}
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                />
+              </Box>
+              <Box p={2} flex={1}>
+                <label htmlFor="shop image five">shop image five</label>
+                <TextField
+                  value={values.shopImagesFive}
+                  onChange={handleChange("shopImagesFive")}
+                  onBlur={handleBlur("shopImagesFive")}
+                  helperText={touched.shopImagesFive && errors.shopImagesFive}
+                  error={false && Boolean(errors.shopImagesFive)}
                   variant="outlined"
                   color="primary"
                   fullWidth

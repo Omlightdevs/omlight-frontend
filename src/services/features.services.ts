@@ -1,11 +1,11 @@
 import axios from "axios";
 import Config from "../config";
-import { IContactFormProps, IFeaturesProps } from "../types";
+import { IContactFormProps, IFeaturesProps, IResponseProps } from "../types";
 
 class FeatureController {
   public async uploadingAllDetails(_id: string, data: IFeaturesProps) {
     try {
-      const details = await axios.post(
+      const details = await axios.post<IResponseProps>(
         `${Config.SERVER_URL}/contact-details/:id`,
         data
       );
@@ -16,7 +16,9 @@ class FeatureController {
   }
   public async getAllDetails() {
     try {
-      const data = await axios.get(`${Config.SERVER_URL}/get-contact-details`);
+      const data = await axios.get<IResponseProps>(
+        `${Config.SERVER_URL}/get-contact-details`
+      );
       return data.data.data;
     } catch (err) {
       return err.message;
@@ -24,7 +26,7 @@ class FeatureController {
   }
   public async getWebsiteDetails() {
     try {
-      const information = await axios.get(
+      const information = await axios.get<IResponseProps>(
         `${Config.SERVER_URL}/get-contact-details`
       );
       return information.data.data;
@@ -34,7 +36,7 @@ class FeatureController {
   }
   public async getWebsteDetailsById(_id: string) {
     try {
-      const data = await axios.get(
+      const data = await axios.get<IResponseProps>(
         `${Config.SERVER_URL}/get-contact-details/${_id}`
       );
       return data.data.data;
@@ -44,7 +46,10 @@ class FeatureController {
   }
   public async contactForm(data: IContactFormProps) {
     try {
-      const formData = await axios.post(`${Config.SERVER_URL}/contact`, data);
+      const formData = await axios.post<IResponseProps>(
+        `${Config.SERVER_URL}/contact`,
+        data
+      );
       return formData.data.data.message;
     } catch (err) {
       return err.message;
@@ -52,7 +57,9 @@ class FeatureController {
   }
   public async getCustomer() {
     try {
-      const data = await axios.get(`${Config.SERVER_URL}/contact`);
+      const data = await axios.get<IResponseProps>(
+        `${Config.SERVER_URL}/contact`
+      );
       return data.data.data;
     } catch (err) {
       return err.message;
@@ -60,7 +67,7 @@ class FeatureController {
   }
   public async deleteContactDetails(_id: string) {
     try {
-      const data = await axios.delete(
+      const data = await axios.delete<IResponseProps>(
         `${Config.SERVER_URL}/delete-contact-details/${_id}`
       );
       return data.data.data;
@@ -70,7 +77,7 @@ class FeatureController {
   }
   public async updatingWebsiteDetails(id: string, information: IFeaturesProps) {
     try {
-      const data = await axios.put(
+      const data = await axios.put<IResponseProps>(
         `${Config.SERVER_URL}/update-wesbite-details/${id}`,
         information
       );

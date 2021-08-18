@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { ButtonComponent } from "../../ui";
+import { Link } from "react-router-dom";
 
 interface BackgroundProps {
   backgroundImage: string;
@@ -55,9 +56,11 @@ export const Background: React.FC<BackgroundProps> = ({
             alignItems="center"
             mt={3}
           >
-            <ButtonComponent color="primary" variant="contained">
-              Explore some here
-            </ButtonComponent>
+            <Link to="/about" style={{ textDecoration: "none" }}>
+              <ButtonComponent color="primary" variant="contained">
+                Explore something about us!
+              </ButtonComponent>
+            </Link>
           </Box>
         </Container>
       </Box>

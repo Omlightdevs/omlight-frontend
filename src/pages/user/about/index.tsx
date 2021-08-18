@@ -35,18 +35,30 @@ export const AboutPage = () => {
       </Helmet>
       <Container>
         <Box p={3}>
-          <Typography className={styles.title} variant="h3">
-            About us
-          </Typography>
           {details?.map(
-            ({ shopAddress, description, phoneNumberOne, phoneNumberTwo }) => (
+            ({
+              websiteName,
+              shopAddress,
+              description,
+              phoneNumberOne,
+              phoneNumberTwo,
+              shopImagesOne,
+              shopImagesTwo,
+              shopImagesThree,
+              shopImagesFour,
+              shopImagesFive,
+            }) => (
               <Box>
+                <Typography className={styles.title} variant="h3">
+                  {websiteName} welcomes to you here!
+                </Typography>
                 <Typography variant="body1">
                   <p style={{ whiteSpace: "pre-wrap" }}>{description}</p>
                 </Typography>
+
                 <Box my={3}>
                   <Grid alignItems="center" container spacing={3}>
-                    <Grid item xs={12} md={12} sm={6} lg={6}>
+                    <Grid item xs={12} md={12} sm={12} xl={12} lg={12}>
                       <Box>
                         <Typography
                           variant="h6"
@@ -89,6 +101,63 @@ export const AboutPage = () => {
                       </Box>
                     </Grid>
                   </Grid>
+
+                  <Box my={3}>
+                    <Typography variant="h6" color="primary">
+                      Let's have a look at some latest picture of our shop
+                    </Typography>
+                  </Box>
+                  <Grid container spacing={3} alignItems="center">
+                    <Grid item xs={12} sm={12} md={12} xl={4} lg={4}>
+                      <img
+                        src={shopImagesOne}
+                        height="100%"
+                        width="100%"
+                        alt=""
+                        className={styles.shopImages}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} xl={4} lg={4}>
+                      <img
+                        src={shopImagesTwo}
+                        height="100%"
+                        width="100%"
+                        alt=""
+                        className={styles.shopImages}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} xl={4} lg={4}>
+                      <img
+                        src={shopImagesThree}
+                        height="100%"
+                        width="100%"
+                        alt=""
+                        className={styles.shopImages}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} xl={4} lg={4}>
+                      <img
+                        src={shopImagesFour}
+                        height="100%"
+                        width="100%"
+                        alt=""
+                        className={styles.shopImages}
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={12} xl={4} lg={4}>
+                      <img
+                        src={shopImagesFive}
+                        height="100%"
+                        width="100%"
+                        alt=""
+                        className={styles.shopImages}
+                      />
+                    </Grid>
+                  </Grid>
                 </Box>
               </Box>
             )
@@ -105,4 +174,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette.primary["main"],
   },
   bodyOneTitle: {},
+  shopImages: {
+    borderRadius: theme.spacing(2),
+  },
 }));
